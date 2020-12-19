@@ -1,0 +1,15 @@
+{
+  "scripts": {
+    "dbg": "dotnet fable src -o es6 --runScript --define=DEBUG",
+    "js": "dotnet fable src -o es6",
+    "ncc": "ncc -m build es6/App.js -o dist --no-source-map-register",
+    "opt": "uglifyjs dist/index.js -m -c -b -o dist/index2.js --ecma 5",
+    "build": "npm run js && npm run ncc && npm run opt"
+  },
+  "dependencies": {
+    "@vercel/ncc": "^0.26.1",
+    "esm": "^3.2.25",
+    "isomorphic-fetch": "^3.0.0",
+    "uglify-es": "^3.3.9"
+  }
+}
