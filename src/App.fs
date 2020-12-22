@@ -2,10 +2,13 @@ module App
 open Fable.Core
 open Fable.Core.JsInterop
 
-type minstack<'t when 't : comparison>() =
+    
+[<Fable.Core.AttachMembers>]
+[<CompiledName("MinStack")>]
+type MinStack<'t when 't : comparison>() =
   let data = System.Collections.Generic.List<'t>()
   let mutable minE = set [] : Set<'t * int>
-  member __.push x =
+  member __.push(x) =
     data.Add x
     minE <- Set.add (x, data.Count - 1) minE
   member __.pop () =
@@ -17,19 +20,10 @@ type minstack<'t when 't : comparison>() =
   member __.getMin(): 't =
     let x, _ = Set.minElement minE in x
 
-
-let createMinStack() = minstack()
-let push(st: minstack<'t>, x) = st.push x
-let pop(st: minstack<'t>) = st.pop()
-let top(st: minstack<'t>) = st.top()
-let getMin(st: minstack<'t>) = st.getMin()
-
-
-
 #if NETCOREAPP
 [<EntryPoint>]
 let main _ =
-  let a = minstack()
+  let a = MinStack()
   a.push(-2)
   a.push(0)
   a.push(-3)
@@ -40,17 +34,6 @@ let main _ =
   0
 
 #else
-emitJsStatement () "
-  export class MinStack{
-    constructor(){
-      this.inner = createMinStack()
-    }
-    push(a){ push(this.inner, a) }
-    pop(){ pop(this.inner) }
-    top(){ return top(this.inner) }
-    getMin(){ return getMin(this.inner) }
-  }
-"
 #if DEBUG
 emitJsStatement () "
   (function(a){

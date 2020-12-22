@@ -1,5 +1,5 @@
 test:
-	dotnet run --project src/App.fsproj --framework netcoreapp3.1
+	dotnet run --configuration Debug --project src/App.fsproj --framework netcoreapp3.1
 
 jsdbg:
 	dotnet fable src -o build/es6 --runScript --define=DEBUG
@@ -23,3 +23,6 @@ all: build/result.js
 
 submit: build/result.js
 	cat build/result.js | clip
+
+clean:
+	rm -rf build
